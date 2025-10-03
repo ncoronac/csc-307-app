@@ -55,6 +55,15 @@ const addUser = (user) => {
     return user;
 };
 
+const deleteUserById = (id) => {
+    const index = users["users_list"].findIndex((user) => user["id"] === id);
+    if (index != -1) {
+        return users["users_list"].splice(index, 1)[0];
+    } else {
+        return undefined;
+    }
+};
+
 app.get("/users", (req, res) => {
   const name = req.query.name;
   if (name != undefined) {
@@ -76,10 +85,20 @@ app.get("/users/:id", (req, res) => {
     }
 });
 
-app.post ("/users", (req, res) => {
+app.post("/users", (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
     res.send();
+});
+
+app.delete("/users/:id", (req, res) => {
+    const id = req.params["id"];
+    const result = deleteUserById(id);
+    if (result === undefined) {
+        res.status(404).send("Resource not found.");
+    } else {
+        res.send(result);
+    }
 });
 
 app.listen(port, () => {

@@ -25,13 +25,13 @@ const characters = [
 function MyApp() {
     const [characters, setCharacters] = useState([]);
 
-    function removeOneCharacter(index) {
+    function removeOneCharacter(id) {
         // const updated = characters.filter((character, i) => {
         // return i !== index;
         // });
         // setCharacters(updated);
 
-        const promise = fetch(`http://localhost:8000/users/${id}`, {
+        fetch(`http://localhost:8000/users/${id}`, {
             method: "DELETE"
         })
         .then(res => {
@@ -47,7 +47,7 @@ function MyApp() {
             console.log(error);
             });
 
-        return promise;
+        // return promise;
     }
 
     function updateList(person) {

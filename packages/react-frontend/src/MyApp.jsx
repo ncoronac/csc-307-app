@@ -34,10 +34,16 @@ function MyApp() {
 
     function updateList(person) {
         postUser(person)
-        .then(() => setCharacters([...characters, person]))
+        .then((res) => {
+            if (res.status === 201) {
+                setCharacters([...characters, person]);
+            } else {
+                console.log("User not added. Status code:", res.status);
+            }
+        })
         .catch((error) => {
             console.log(error);
-        })
+        });
     }
 
     function postUser(person) {

@@ -57,6 +57,10 @@ const addUser = (user) => {
     return user;
 };
 
+const generateId = () => {
+    return Math.random().toString();
+};
+
 const deleteUserById = (id) => {
     const index = users["users_list"].findIndex((user) => user["id"] === id);
     if (index != -1) {
@@ -95,8 +99,9 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    userToAdd.id = generateId();
+    const result = addUser(userToAdd);
+    res.status(201).json(result);
 });
 
 app.delete("/users/:id", (req, res) => {

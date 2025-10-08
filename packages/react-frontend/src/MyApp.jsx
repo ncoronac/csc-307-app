@@ -36,7 +36,9 @@ function MyApp() {
         postUser(person)
         .then((res) => {
             if (res.status === 201) {
-                setCharacters([...characters, person]);
+                return res.json().then((updatedPerson) => {
+                    setCharacters([...characters, updatedPerson]);
+                })
             } else {
                 console.log("User not added. Status code:", res.status);
             }

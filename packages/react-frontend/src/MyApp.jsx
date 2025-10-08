@@ -26,10 +26,28 @@ function MyApp() {
     const [characters, setCharacters] = useState([]);
 
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-        return i !== index;
-        });
-        setCharacters(updated);
+        // const updated = characters.filter((character, i) => {
+        // return i !== index;
+        // });
+        // setCharacters(updated);
+
+        const promise = fetch(`http://localhost:8000/users/${id}`, {
+            method: "DELETE"
+        })
+        .then(res => {
+            if (res.status === 204) {
+                setCharacters(characters.filter(character => character.id !== id));
+            } else if (res.status == 404) {
+                console.log("Resource not found");
+            } else {
+                console.log("User not deleted. Satus code:", res.status);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            });
+
+        return promise;
     }
 
     function updateList(person) {
@@ -59,6 +77,8 @@ function MyApp() {
 
         return promise;
     }
+
+    
 
     useEffect(() => {
         fetchUsers()
